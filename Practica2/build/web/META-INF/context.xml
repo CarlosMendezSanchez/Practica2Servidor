@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/Practica2">
+  <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="experiencias_de_viajes" password="experiencias_de_viajes" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/experiencias_de_viajes?zeroDateTimeBehavior=CONVERT_TO_NULL" username="experiencias_de_viajes"/>
+</Context>
