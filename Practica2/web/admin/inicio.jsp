@@ -31,7 +31,7 @@
             <td>${usuariosLista.tipo}</td>
             <td>${usuariosLista.activo}</td>
             <td>
-                <a href="ControladorInicioAdmin?id=${usuariosLista.id}&accion=editar">Editar</a> |
+                <a href="ControladorInicioAdmin?id=${usuariosLista.id}&accion=editar">Editar</a> 
                 <a href="ControladorInicioAdmin?id=${usuariosLista.id}&accion=eliminar">Eliminar</a>
             </td>
         </tr>

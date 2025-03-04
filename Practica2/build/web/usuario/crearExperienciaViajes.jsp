@@ -23,7 +23,7 @@
 
         <label for="fechaInicio">Fecha de Inicio:</label>
         <input type="date" id="fechaInicio" name="fechaInicio" required><br>
-
+        
         <label for="publicada">¿Publicar?</label>
         <select id="publicada" name="publicada">
             <option value="true">Sí</option>
@@ -31,6 +31,7 @@
         </select><br>
         
         <button type="submit">Crear Experiencia</button>
+        <a href="ControladorInicio">Volver a experiencias</a>
     </form>
     </body>
 </html>

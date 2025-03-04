@@ -36,6 +36,7 @@ public class ControladorRegistro extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
+        return;
     }
 
     /**
@@ -82,6 +83,7 @@ public class ControladorRegistro extends HttpServlet {
 
         request.setAttribute("error", error);
         getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
+        return;
     }
 
     /**

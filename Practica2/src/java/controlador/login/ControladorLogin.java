@@ -37,6 +37,7 @@ public class ControladorLogin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+        return;
     }
 
     /**
@@ -81,6 +82,7 @@ public class ControladorLogin extends HttpServlet {
         }
         request.setAttribute("error", error);
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+        return;
     }
 
     /**

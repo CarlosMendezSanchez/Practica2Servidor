@@ -94,6 +94,14 @@ public class ExperienciaViaje implements Serializable, Comparable<ExperienciaVia
         this.id = id;
     }
 
+    public boolean isPublicada() {
+        return publicada;
+    }
+
+    public void setPublicada(boolean publicada) {
+        this.publicada = publicada;
+    }
+
     @Override
     public int compareTo(ExperienciaViaje o) {
         return this.fechaInicio.compareTo(o.fechaInicio);

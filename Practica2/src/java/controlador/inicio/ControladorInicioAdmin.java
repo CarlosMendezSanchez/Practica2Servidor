@@ -61,6 +61,7 @@ public class ControladorInicioAdmin extends HttpServlet {
                 Usuario usuarioEditar = svu.findUsuario(id);
                 request.setAttribute("usuariosLista", usuarioEditar);
                 getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);
+                return;
             }
             getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
         } catch (NonexistentEntityException e) {
@@ -68,6 +69,7 @@ public class ControladorInicioAdmin extends HttpServlet {
         }
         
         getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
+        return;
         
     }
 
@@ -129,6 +131,7 @@ public class ControladorInicioAdmin extends HttpServlet {
             request.setAttribute("usuariosLista", usuario);
         }
     getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);
+    return;
         }
 
     /**
