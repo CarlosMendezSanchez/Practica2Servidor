@@ -36,7 +36,7 @@
         
         <button type="submit">Registrarse</button>
         
-        <a href="ControladorLogin">Ir a inicio</a>
+        <a href="${pageContext.request.contextPath}/ControladorLogin">Ir a inicio</a>
     </form>
     </body>
 </html>

@@ -7,7 +7,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -27,23 +26,25 @@
                         <th>Acciones</th>
                         <th>Crear actividad</th>
                         <th>Tabla de actividades</th>
+                        <th>Añadir Comentarios</th>
+                        <th>Comentarios</th>
                     </tr>
                     <tr>
                         <td>${experiencia.titulo}</td>
                         <td>${experiencia.descripcion}</td>
                         <td>
                             <c:if test="${not empty experiencia.fechaInicio}">
-                                <fmt:formatDate value="${experiencia.fechaInicio}" pattern="dd-MM-yyyy" />
+                                <fmt:formatDate value="${experiencia.fechaInicio}" pattern="dd-MM-yyyy"/>
                             </c:if>
                         </td>
                         <td>
                             <c:if test="${experiencia.usuario == usuario}">
-                                <a href="../ControladorEditarExperiencia?id=${experiencia.id}">Editar</a> 
-                                <a href="ControladorInicio?id=${experiencia.id}&accion=eliminar">Eliminar</a>
+                                <a href="${pageContext.request.contextPath}/ControladorEditarExperiencia?id=${experiencia.id}">Editar</a> 
+                                <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?id=${experiencia.id}&accion=eliminar">Eliminar</a>
                             </c:if>
                         </td>
                         <td>
-                            <a href="ControladorActividad?id=${experiencia.id}">Crear actividad</a>
+                            <a href="${pageContext.request.contextPath}/ControladorCrearActividades?id=${experiencia.id}&accion=crearAct">Crear actividad</a>
                         </td>
                         <td>
                             <table border="1">
@@ -51,21 +52,34 @@
                                     <th>Titulo</th>
                                     <th>Fecha inicio</th>
                                     <th>Descripcion</th>
+                                    <th>Acciones actividades</th>
                                 </tr>
                                 <c:forEach var="actividad" items="${experiencia.actividades}">
                                     <tr>
                                         <td>${actividad.titulo}</td>
-                                        <td>${actividad.fecha}</td>
+                                        <td>
+                                            <c:if test="${not empty actividad.fecha}">
+                                                <fmt:formatDate value="${actividad.fecha}" pattern="dd-MM-yyyy"/>
+                                            </c:if>
+                                        </td>
                                         <td>${actividad.descripcion}</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/ControladorEditarEA?id=${actividad.id}&idEx=${experiencia.id}">Editar</a> 
+                                            <a href="${pageContext.request.contextPath}/ControladorActividad?id=${actividad.id}&idEx=${experiencia.id}&accionAct=eliminar">Eliminar</a>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
                         </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ControladorComentario">Añadir comentario</a>
+                        </td>
+                        
                     </tr>
                 </table>
             </c:if>
         </c:forEach>
         
-        <a href="ControladorInicio?accion=crear">Crear experiencia</a>
+        <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?accion=crear">Crear experiencia</a>
     </body>
 </html>

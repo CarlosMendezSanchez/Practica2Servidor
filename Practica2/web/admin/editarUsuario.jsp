@@ -31,7 +31,7 @@
         >
         <input type="submit" value="Guardar cambios">
         
-        <a href="ControladorInicioAdmin">Volver a inicio</a>
+        <a href="${pageContext.request.contextPath}/usuario/ControladorInicioAdmin">Volver a inicio</a>
     </form>
     </body>
 </html>

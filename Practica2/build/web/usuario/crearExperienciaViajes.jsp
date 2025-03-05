@@ -31,7 +31,7 @@
         </select><br>
         
         <button type="submit">Crear Experiencia</button>
-        <a href="ControladorInicio">Volver a experiencias</a>
+        <a href="${pageContext.request.contextPath}/usuario/ControladorInicio">Volver a experiencias</a>
     </form>
     </body>
 </html>
