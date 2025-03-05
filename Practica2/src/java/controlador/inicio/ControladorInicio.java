@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.entidades.ExperienciaViaje;
+import modelo.entidades.Opinion;
 import modelo.entidades.Usuario;
 import modelo.servicio.ServicioExperienciaViaje;
+import modelo.servicio.ServicioOpinion;
 
 /**
  *
@@ -42,8 +44,11 @@ public class ControladorInicio extends HttpServlet {
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
+        ServicioOpinion opiniones = new ServicioOpinion(emf);
         List<ExperienciaViaje> experienciaViajes = sve.findExperienciaViajeEntities();
+        List<Opinion> listaOpiniones = opiniones.findOpinionEntities();
         request.setAttribute("experienciaViajes", experienciaViajes);
+        request.setAttribute("listaOpiniones", listaOpiniones);
         String error = ""; 
         
         String accion = request.getParameter("accion");

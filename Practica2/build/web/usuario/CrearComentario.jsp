@@ -14,7 +14,11 @@
     <body>
         <h1>Añadir un comentario</h1>
         <form method="post">
+            <label for="contenido">Contenido del comentario</label><br>
+            <textarea id="contenido" name="contenido" style="resize: none"></textarea><br>
             
+            <button type="submit">Añadir comentario</button>
         </form>
+        <a href="${pageContext.request.contextPath}/usuario/ControladorInicio">Volver a experiencias</a>
     </body>
 </html>

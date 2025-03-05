@@ -72,9 +72,24 @@
                             </table>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ControladorComentario">Añadir comentario</a>
+                            <a href="${pageContext.request.contextPath}/ControladorComentario?idEx=${experiencia.id}">Añadir comentario</a>
                         </td>
-                        
+                        <td>
+                            <table border="1">
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Contenido</th>
+                                </tr>
+                                <c:forEach var="opinion" items="${listaOpiniones}">
+                                    <tr>
+                                        <c:if test="${opinion.experiencia == experiencia}">
+                                        <td>${opinion.usuario}</td>
+                                        <td>${opinion.contenido}</td>
+                                        </c:if>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </c:if>
