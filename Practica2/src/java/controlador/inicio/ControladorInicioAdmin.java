@@ -39,6 +39,7 @@ public class ControladorInicioAdmin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));  
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
         ServicioUsuario svu = new ServicioUsuario(emf);
         List<Usuario> usuario = svu.findUsuarioEntities();
@@ -48,16 +49,13 @@ public class ControladorInicioAdmin extends HttpServlet {
         String error = "";
         
         try {
-            if ("eliminar".equals(accion)) {
-                Long id = Long.parseLong(request.getParameter("id"));
-                ServicioUsuario servicioUsuario = new ServicioUsuario(Persistence.createEntityManagerFactory("Practica2PU"));
-                servicioUsuario.destroy(id);
-                usuario = servicioUsuario.findUsuarioEntities();
+            if ("eliminar".equals(accion)) {                       
+                svu.destroy(id);
+                usuario = svu.findUsuarioEntities();
             request.setAttribute("usuarios", usuario);
             }
             
             if ("editar".equals(accion)){
-                Long id = Long.parseLong(request.getParameter("id"));
                 Usuario usuarioEditar = svu.findUsuario(id);
                 request.setAttribute("usuariosLista", usuarioEditar);
                 getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);

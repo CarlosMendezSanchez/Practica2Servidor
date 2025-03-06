@@ -60,10 +60,9 @@ public class ControladorInicio extends HttpServlet {
         
         try {
             if ("eliminar".equals(accion)){
-                Long id = Long.parseLong(request.getParameter("id"));
-                ServicioExperienciaViaje servicioExperienciaViaje = new ServicioExperienciaViaje(Persistence.createEntityManagerFactory("Practica2PU"));
-                servicioExperienciaViaje.destroy(id);
-                experienciaViajes = servicioExperienciaViaje.findExperienciaViajeEntities();
+                Long id = Long.parseLong(request.getParameter("id"));                
+                sve.destroy(id);
+                experienciaViajes = sve.findExperienciaViajeEntities();
                 request.setAttribute("experienciaViajes", experienciaViajes);
             }
         }  catch (Exception e) {

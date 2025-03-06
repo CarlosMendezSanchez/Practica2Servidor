@@ -43,8 +43,11 @@ public class ControladorActividad extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        Long idEx = Long.parseLong(request.getParameter("idEx"));
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
         ServicioActividad sa = new ServicioActividad(emf);
+        ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         List<Actividad> actividad = sa.findActividadEntities();
         request.setAttribute("actividad", actividad);
         String error = "";
@@ -52,25 +55,21 @@ public class ControladorActividad extends HttpServlet {
         String accionAct = request.getParameter("accionAct");
         
         try {
-            if ("eliminar".equals(accionAct)) {
-            Long id = Long.parseLong(request.getParameter("id"));
-            Long idEx = Long.parseLong(request.getParameter("idEx"));
-            ServicioActividad servicioActividad = new ServicioActividad(emf);
-            ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
-            ExperienciaViaje experienciaViaje = sve.findExperienciaViaje(idEx);
-            Actividad actividades = sa.findActividad(id);
-            if (experienciaViaje != null) {
-            List<Actividad> actividadesExperiencia = experienciaViaje.getActividades();   
-            actividadesExperiencia.remove(actividades);
-            experienciaViaje.setActividades(actividadesExperiencia);
-                try {
-                    sve.edit(experienciaViaje);
-                } catch (Exception e) {
-                    error = "No se puede editar";
-                }
-            }
-            servicioActividad.destroy(id);
-            actividad = servicioActividad.findActividadEntities();
+            if ("eliminar".equals(accionAct)) {               
+                ExperienciaViaje experienciaViaje = sve.findExperienciaViaje(idEx);
+                Actividad actividades = sa.findActividad(id);
+                    if (experienciaViaje != null) {
+                        List<Actividad> actividadesExperiencia = experienciaViaje.getActividades();   
+                        actividadesExperiencia.remove(actividades);
+                        experienciaViaje.setActividades(actividadesExperiencia);
+                            try {
+                                sve.edit(experienciaViaje);
+                            } catch (Exception e) {
+                                error = "No se puede editar";
+                            }
+                    }
+            sa.destroy(id);
+            actividad = sa.findActividadEntities();
             request.setAttribute("actividad", actividad);  
             emf.close();
             }

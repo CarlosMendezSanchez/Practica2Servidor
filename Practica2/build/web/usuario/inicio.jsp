@@ -64,8 +64,10 @@
                                         </td>
                                         <td>${actividad.descripcion}</td>
                                         <td>
+                                            <c:if test="${experiencia.usuario == usuario}">
                                             <a href="${pageContext.request.contextPath}/ControladorEditarEA?id=${actividad.id}&idEx=${experiencia.id}">Editar</a> 
                                             <a href="${pageContext.request.contextPath}/ControladorActividad?id=${actividad.id}&idEx=${experiencia.id}&accionAct=eliminar">Eliminar</a>
+                                            </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -96,5 +98,6 @@
         </c:forEach>
         
         <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?accion=crear">Crear experiencia</a>
+        <a href="${pageContext.request.contextPath}/ControladorConsultaExperiencia">Filtrar Experiencias</a>
     </body>
 </html>

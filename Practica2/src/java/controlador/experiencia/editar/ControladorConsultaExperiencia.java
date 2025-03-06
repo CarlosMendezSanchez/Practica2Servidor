@@ -2,31 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controlador.comentario;
+package controlador.experiencia.editar;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import modelo.entidades.ExperienciaViaje;
-import modelo.entidades.Opinion;
-import modelo.entidades.Usuario;
-import modelo.servicio.ServicioExperienciaViaje;
-import modelo.servicio.ServicioOpinion;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "ControladorComentario", urlPatterns = {"/ControladorComentario"})
-public class ControladorComentario extends HttpServlet {
+@WebServlet(name = "ControladorConsultaExperiencia", urlPatterns = {"/ControladorConsultaExperiencia"})
+public class ControladorConsultaExperiencia extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/usuario/consultaExperiencia.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -40,8 +45,7 @@ public class ControladorComentario extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/usuario/crearcomentario.jsp").forward(request, response);
-        return;
+        processRequest(request, response);
     }
 
     /**
@@ -55,28 +59,7 @@ public class ControladorComentario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String contenido = request.getParameter("contenido");
-        String error = "";
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
-        ServicioOpinion opiniones = new ServicioOpinion(emf);
-        ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
-        
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Long id = Long.parseLong(request.getParameter("idEx"));
-        ExperienciaViaje experienciaViaje = sve.findExperienciaViaje(id);
-        
-        Opinion opinion = new Opinion();
-        opinion.setContenido(contenido);
-        opinion.setUsuario(usuario);
-        opinion.setExperiencia(experienciaViaje);
-        
-        opiniones.create(opinion);
-        emf.close();
-        
-        getServletContext().getRequestDispatcher("/usuario/crearcomentario.jsp").forward(request, response);
-        return;
+        processRequest(request, response);
     }
 
     /**

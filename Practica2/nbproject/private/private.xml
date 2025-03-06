@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/Practica2/src/java/controlador/crear/actividad/ControladorActividad.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/Practica2/src/java/controlador/experiencia/editar/ControladorFiltrarExperiencia.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/Practica2/web/usuario/filtrarExperiencia.jsp</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/Practica2/web/usuario/consultaExperiencia.jsp</file>
         </group>
     </open-files>
 </project-private>
