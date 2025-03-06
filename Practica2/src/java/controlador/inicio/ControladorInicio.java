@@ -66,7 +66,7 @@ public class ControladorInicio extends HttpServlet {
                 request.setAttribute("experienciaViajes", experienciaViajes);
             }
         }  catch (Exception e) {
-            request.setAttribute("error", error);
+            request.setAttribute("error","No se puede eliminar porque la experiencia tiene una actividad asociada");
         }
         
         getServletContext().getRequestDispatcher("/usuario/inicio.jsp").forward(request, response);

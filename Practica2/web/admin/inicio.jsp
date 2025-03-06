@@ -25,17 +25,22 @@
             <th>Acciones</th>
             
             <c:forEach var="usuariosLista" items="${usuarios}">
-        <tr>
-            <td>${usuariosLista.id}</td>
-            <td>${usuariosLista.email}</td>
-            <td>${usuariosLista.tipo}</td>
-            <td>${usuariosLista.activo}</td>
-            <td>
-                <a href="${pageContext.request.contextPath}/usuario/ControladorInicioAdmin?id=${usuariosLista.id}&accion=editar">Editar</a> 
-                <a href="${pageContext.request.contextPath}/usuario/ControladorInicioAdmin?id=${usuariosLista.id}&accion=eliminar">Eliminar</a>
-            </td>
-        </tr>
+                <tr>
+                    <td>${usuariosLista.id}</td>
+                    <td>${usuariosLista.email}</td>
+                    <td>${usuariosLista.tipo}</td>
+                    <td>${usuariosLista.activo}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/ControladorInicioAdmin?id=${usuariosLista.id}&accion=editar">Editar</a> 
+                        <a href="${pageContext.request.contextPath}/admin/ControladorInicioAdmin?id=${usuariosLista.id}&accion=eliminar">Eliminar</a>
+                    </td>
+                </tr>
             </c:forEach >
     </table>
+    <a href="${pageContext.request.contextPath}/admin/ControladorGrafica">Ver experiencias de usuarios</a>
+    <br>
+        <c:if test="${not empty error}">
+            <div class="error">${error}</div>
+        </c:if>
     </body>
 </html>

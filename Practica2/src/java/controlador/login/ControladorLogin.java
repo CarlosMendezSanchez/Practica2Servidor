@@ -69,7 +69,7 @@ public class ControladorLogin extends HttpServlet {
                 sesion.setAttribute("usuario", usu);
                 
                 if("admin".equals(usu.getTipo())){
-                    response.sendRedirect("usuario/ControladorInicioAdmin");
+                    response.sendRedirect("admin/ControladorInicioAdmin");
                 } else {
                     response.sendRedirect("usuario/ControladorInicio");
                 }

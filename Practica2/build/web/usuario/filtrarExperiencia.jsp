@@ -39,12 +39,12 @@
                         </td>
                         <td>
                             <c:if test="${experiencia.usuario == usuario}">
-                                <a href="${pageContext.request.contextPath}/ControladorEditarExperiencia?id=${experiencia.id}">Editar</a> 
+                                <a href="${pageContext.request.contextPath}/usuario/ControladorEditarExperiencia?id=${experiencia.id}">Editar</a> 
                                 <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?id=${experiencia.id}&accion=eliminar">Eliminar</a>
                             </c:if>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ControladorCrearActividades?id=${experiencia.id}&accion=crearAct">Crear actividad</a>
+                            <a href="${pageContext.request.contextPath}/usuario/ControladorCrearActividades?id=${experiencia.id}&accion=crearAct">Crear actividad</a>
                         </td>
                         <td>
                             <table border="1">
@@ -64,15 +64,15 @@
                                         </td>
                                         <td>${actividad.descripcion}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/ControladorEditarEA?id=${actividad.id}&idEx=${experiencia.id}">Editar</a> 
-                                            <a href="${pageContext.request.contextPath}/ControladorActividad?id=${actividad.id}&idEx=${experiencia.id}&accionAct=eliminar">Eliminar</a>
+                                            <a href="${pageContext.request.contextPath}/usuario/ControladorEditarEA?id=${actividad.id}&idEx=${experiencia.id}">Editar</a> 
+                                            <a href="${pageContext.request.contextPath}/usuario/ControladorActividad?id=${actividad.id}&idEx=${experiencia.id}&accionAct=eliminar">Eliminar</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
                             </table>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ControladorComentario?idEx=${experiencia.id}">Añadir comentario</a>
+                            <a href="${pageContext.request.contextPath}/usuario/ControladorComentario?idEx=${experiencia.id}">Añadir comentario</a>
                         </td>
                         <td>
                             <table border="1">
@@ -96,5 +96,9 @@
         </c:forEach>
         
         <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?accion=crear">Crear experiencia</a>
+        <br>
+        <c:if test="${not empty error}">
+            <div class="error">${error}</div>
+        </c:if>
     </body>
 </html>

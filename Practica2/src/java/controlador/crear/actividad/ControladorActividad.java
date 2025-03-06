@@ -27,7 +27,7 @@ import modelo.servicio.ServicioExperienciaViaje;
  *
  * @author carlos
  */
-@WebServlet(name = "ControladorActividad", urlPatterns = {"/ControladorActividad"})
+@WebServlet(name = "ControladorActividad", urlPatterns = {"/usuario/ControladorActividad"})
 public class ControladorActividad extends HttpServlet {
 
 
@@ -65,7 +65,7 @@ public class ControladorActividad extends HttpServlet {
                             try {
                                 sve.edit(experienciaViaje);
                             } catch (Exception e) {
-                                error = "No se puede editar";
+                                request.setAttribute("error","No se puede editar la lista al intentar eliminar la actividad");
                             }
                     }
             sa.destroy(id);
@@ -74,7 +74,7 @@ public class ControladorActividad extends HttpServlet {
             emf.close();
             }
         } catch (Exception e) {
-            error = "No se pudo eliminar";
+            request.setAttribute("error","No se puede eliminar la actividad");
         }
         
         getServletContext().getRequestDispatcher("/usuario/ControladorInicio").forward(request, response);

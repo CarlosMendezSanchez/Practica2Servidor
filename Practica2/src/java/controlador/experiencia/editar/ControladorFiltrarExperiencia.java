@@ -24,7 +24,7 @@ import modelo.servicio.ServicioOpinion;
  *
  * @author carlos
  */
-@WebServlet(name = "ControladorFiltrarExperiencia", urlPatterns = {"/ControladorFiltrarExperiencia"})
+@WebServlet(name = "ControladorFiltrarExperiencia", urlPatterns = {"/usuario/ControladorFiltrarExperiencia"})
 public class ControladorFiltrarExperiencia extends HttpServlet {
 
     /**

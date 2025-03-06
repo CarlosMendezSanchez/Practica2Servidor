@@ -24,7 +24,7 @@ import utilidades.Utilidades;
  *
  * @author carlos
  */
-@WebServlet(name = "ControladorInicioAdmin", urlPatterns = {"/usuario/ControladorInicioAdmin"})
+@WebServlet(name = "ControladorInicioAdmin", urlPatterns = {"/admin/ControladorInicioAdmin"})
 public class ControladorInicioAdmin extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -38,8 +38,7 @@ public class ControladorInicioAdmin extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Long id = Long.parseLong(request.getParameter("id"));  
+            throws ServletException, IOException {  
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
         ServicioUsuario svu = new ServicioUsuario(emf);
         List<Usuario> usuario = svu.findUsuarioEntities();
@@ -48,22 +47,28 @@ public class ControladorInicioAdmin extends HttpServlet {
         
         String error = "";
         
-        try {
-            if ("eliminar".equals(accion)) {                       
-                svu.destroy(id);
-                usuario = svu.findUsuarioEntities();
-            request.setAttribute("usuarios", usuario);
-            }
-            
+        try {  
             if ("editar".equals(accion)){
+                Long id = Long.parseLong(request.getParameter("id"));
                 Usuario usuarioEditar = svu.findUsuario(id);
                 request.setAttribute("usuariosLista", usuarioEditar);
                 getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);
                 return;
             }
-            getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
-        } catch (NonexistentEntityException e) {
-            request.setAttribute("error", error);
+        } catch (Exception e) {
+            request.setAttribute("error", "No se puede editar usuarios");
+        }
+        
+        try {
+            if ("eliminar".equals(accion)) {  
+                Long id = Long.parseLong(request.getParameter("id"));
+                svu.destroy(id);
+                usuario = svu.findUsuarioEntities();
+                request.setAttribute("usuarios", usuario);
+                getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            request.setAttribute("error", "No se puede eliminar el usuario porque tiene experiencias");
         }
         
         getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);

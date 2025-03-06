@@ -9,10 +9,10 @@ Highcharts.chart('container', {
         }
     },
     title: {
-        text: 'Salarios de los empleados'
+        text: 'Experiencias de los usuarios'
     },
     subtitle: {
-        text: 'Empresa2024'
+        text: 'Experiencia Viaje'
     },
     plotOptions: {
         column: {
@@ -24,21 +24,21 @@ Highcharts.chart('container', {
         labels: {
             skew3d: true,
             style: {
-                fontSize: '14px'
+                fontSize: '20px'
             }
         }
     },
     yAxis: {
         title: {
-            text: 'Salario en euros',
+            text: 'Numero de experiencias',
             margin: 20
         }
     },
     tooltip: {
-        valueSuffix: ' euros'
+        valueSuffix: ' experiencia'
     },
     series: [{
-        name: 'Salario',
+        name: 'Experiencias',
         data: datos
     }]
 });

@@ -23,7 +23,7 @@
             <br>
             <input type="submit" value="Iniciar Sesión">
         </form>
-        <a href="${pageContext.request.contextPath}/ControladorRegistro">Registrarse</a>
+        <a href="${pageContext.request.contextPath}/usuario/ControladorRegistro">Registrarse</a>
         <br>
         <c:if test="${not empty error}">
             <div class="error">${error}</div>
