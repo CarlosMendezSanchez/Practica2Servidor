@@ -11,6 +11,7 @@
     <fmt:setBundle var="traduccion" basename="traduccion.traduccion"></fmt:setBundle>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <link rel="stylesheet" type="text/css" href="../estilos/estiloPagina.css">
         <title>Practica2</title>
     </head>
     <body>
@@ -98,6 +99,7 @@
             </c:if>
         </c:forEach>
         
+        <a href="${pageContext.request.contextPath}/ControladorLogin"><fmt:message key="menu" bundle="${traduccion}"/></a>
         <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?accion=crear"><fmt:message key="crearEx" bundle="${traduccion}"/></a>
         <a href="${pageContext.request.contextPath}/usuario/ControladorConsultaExperiencia"><fmt:message key="filtrarEx" bundle="${traduccion}"/></a>
         <br>

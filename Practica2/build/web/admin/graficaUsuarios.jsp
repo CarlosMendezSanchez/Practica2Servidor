@@ -10,7 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <link rel="stylesheet" type="text/css" href="../estilos/grafica.css"><script>
+        <link rel="stylesheet" type="text/css" href="../estilos/grafica.css">
+        <link rel="stylesheet" type="text/css" href="../estilos/estiloPagina.css">
+        <script>
             datos = [
                     <c:forEach var="usuario" items="${usuarios}" varStatus="status">
                        ['${usuario.nombre} ${usuario.apellidos}', ${fn:length(usuario.experiencias)} ] ${status.last?"":","}     
@@ -61,6 +63,8 @@
         
         <input type="submit" value="Filtrar por 2 fechas">
         </form> 
+        
+        <a href="${pageContext.request.contextPath}/admin/ControladorInicioAdmin">Volver a la administración</a>
         
         <script src="${pageContext.request.contextPath}/js/grafica.js"></script>
         <script src="${pageContext.request.contextPath}/js/graficaActividades.js"></script>
