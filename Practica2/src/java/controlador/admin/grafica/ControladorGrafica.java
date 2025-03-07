@@ -6,6 +6,7 @@ package controlador.admin.grafica;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -45,6 +46,17 @@ public class ControladorGrafica extends HttpServlet {
         List<ExperienciaViaje> experiencia = sve.findExperienciaViajeEntities();
         request.setAttribute("usuarios", usuario);
         request.setAttribute("experiencias", experiencia);
+
+        if (request.getParameter("fechaInicio") == null || request.getParameter("fechaFin") == null) {
+            List<ExperienciaViaje> experienciaViajeVacia = sve.findExperienciaViajeEntities();
+            request.setAttribute("experiencias", experienciaViajeVacia);
+        } else {
+            Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fechaInicio"));
+            Date fechaFin = java.sql.Date.valueOf(request.getParameter("fechaFin"));
+            List<ExperienciaViaje> experienciaViaje = sve.findExperienciasByFecha(fechaInicio, fechaFin);
+            request.setAttribute("experiencias", experienciaViaje);
+        }
+        
         emf.close();
         getServletContext().getRequestDispatcher("/admin/graficaUsuarios.jsp").forward(request, response);
     }
