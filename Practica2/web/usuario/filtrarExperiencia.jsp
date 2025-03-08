@@ -95,8 +95,6 @@
                 </table>
             </c:if>
         </c:forEach>
-        
-        <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?accion=crear">Crear experiencia</a>
         <br>
         <c:if test="${not empty error}">
             <div class="error">${error}</div>
