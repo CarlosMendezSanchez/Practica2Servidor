@@ -25,6 +25,10 @@
             <th>Activo</th>
             <th>Acciones</th>
             
+            <%-- 
+            Iterar sobre la lista de usuarios, el controlador pasa la lista de usuarios al jsp utilizando
+            items="${usuarios} como atributo"
+            --%>
             <c:forEach var="usuariosLista" items="${usuarios}">
                 <tr>
                     <td>${usuariosLista.id}</td>
@@ -41,6 +45,7 @@
     <a href="${pageContext.request.contextPath}/admin/ControladorGrafica">Ver experiencias de usuarios</a>
     <a href="${pageContext.request.contextPath}/ControladorLogin">Volver al inicio de sesion</a>
     <br>
+    <%-- Condicional en el que si hay un error, se muestra en un div el tipo de error que contenga la variable--%>
         <c:if test="${not empty error}">
             <div class="error">${error}</div>
         </c:if>

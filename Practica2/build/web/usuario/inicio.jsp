@@ -8,6 +8,9 @@
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+    <%-- fmt:setBundle se utiliza para la traduccion, la ruta del archivo se pasa a traves de basename
+    y var="traduccion" sera la variable que se utilizara para asignar el idioma del texto
+    --%>
     <fmt:setBundle var="traduccion" basename="traduccion.traduccion"></fmt:setBundle>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -18,7 +21,13 @@
         <h1><fmt:message key="hola" bundle="${traduccion}"/> ${usuario.nombre}</h1>
         
         <h2><fmt:message key="experienciasViaje" bundle="${traduccion}"/></h2>
+        <%-- Se recorre la lista de experiencias con var="experiencia".
+        items="${experienciaViajes}" es el atributo que pasa el controlador al jsp para
+        recoger esa lista
+        --%>
         <c:forEach var="experiencia" items="${experienciaViajes}">
+            
+            <%-- Si la experiencia esta publica o pertenece a ese usuario, se mostrará la experiencia --%>
             <c:if test="${experiencia.publicada == true || experiencia.usuario == usuario}">
                 <table border="1">
                     <tr>
@@ -35,11 +44,13 @@
                         <td>${experiencia.titulo}</td>
                         <td>${experiencia.descripcion}</td>
                         <td>
+                            <%-- Comprueba que la fecha no esté vacía y se le da formato a la fecha --%>
                             <c:if test="${not empty experiencia.fechaInicio}">
                                 <fmt:formatDate value="${experiencia.fechaInicio}" pattern="dd-MM-yyyy"/>
                             </c:if>
                         </td>
                         <td>
+                            <%-- Si la experiencia de usuario coincide con el usuario en sesion, se mostraran los botones --%>
                             <c:if test="${experiencia.usuario == usuario}">
                                 <a href="${pageContext.request.contextPath}/usuario/ControladorEditarExperiencia?id=${experiencia.id}"><fmt:message key="editar" bundle="${traduccion}"/></a> 
                                 <a href="${pageContext.request.contextPath}/usuario/ControladorInicio?id=${experiencia.id}&accion=eliminar"><fmt:message key="eliminar" bundle="${traduccion}"/></a>
@@ -56,6 +67,9 @@
                                     <th><fmt:message key="descripcion" bundle="${traduccion}"/></th>
                                     <th><fmt:message key="accionesAct" bundle="${traduccion}"/></th>
                                 </tr>
+                                <%-- Se recorre la lista de actividad con var="actividad".
+                                Las actividades que esten asociadas con la experiencia, se mostrarán
+                                --%>
                                 <c:forEach var="actividad" items="${experiencia.actividades}">
                                     <tr>
                                         <td>${actividad.titulo}</td>
@@ -84,6 +98,9 @@
                                     <th><fmt:message key="usu" bundle="${traduccion}"/></th>
                                     <th><fmt:message key="contenido" bundle="${traduccion}"/></th>
                                 </tr>
+                                <%-- Se recorre la lista de opiniones con var="opinion".
+                                Las opiniones que esten asociadas con la experiencia, se mostrarán
+                                --%>
                                 <c:forEach var="opinion" items="${listaOpiniones}">
                                     <tr>
                                         <c:if test="${opinion.experiencia == experiencia}">

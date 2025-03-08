@@ -12,6 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link rel="stylesheet" type="text/css" href="../estilos/grafica.css">
         <link rel="stylesheet" type="text/css" href="../estilos/estiloPagina.css">
+        <%-- Bucle para recorrer la lista de usuarios, fn:length para recorrer la longitud de la lista de experiencias --%>
         <script>
             datos = [
                     <c:forEach var="usuario" items="${usuarios}" varStatus="status">
