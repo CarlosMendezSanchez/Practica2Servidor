@@ -40,14 +40,20 @@ public class ControladorInicioAdmin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {  
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de usuario y obtener la lista de usuarios de la base de datos.
         ServicioUsuario svu = new ServicioUsuario(emf);
         List<Usuario> usuario = svu.findUsuarioEntities();
+        // Agregar la lista mediante atributos para el archivo jsp.
         request.setAttribute("usuarios", usuario);
         String accion = request.getParameter("accion");
         
         String error = "";
         
         try {  
+            /*
+            * Si el parametro de accion es igual a editar, obtiene el id del usuario y lo busca
+            * Agrega como atributo el usuario que se va a editar y redirige al jsp /admin/editarUsuario.jsp
+            */
             if ("editar".equals(accion)){
                 Long id = Long.parseLong(request.getParameter("id"));
                 Usuario usuarioEditar = svu.findUsuario(id);
@@ -60,6 +66,10 @@ public class ControladorInicioAdmin extends HttpServlet {
         }
         
         try {
+            /*
+            * Si el parametro de accion es igual a eliminar, obtiene el id del usuario y lo elimina
+            * Agraga como atributo la lista de usuarios actualizada y redirige al jsp /admin/inicio.jsp
+            */
             if ("eliminar".equals(accion)) {  
                 Long id = Long.parseLong(request.getParameter("id"));
                 svu.destroy(id);
@@ -71,8 +81,8 @@ public class ControladorInicioAdmin extends HttpServlet {
             request.setAttribute("error", "No se puede eliminar el usuario porque tiene experiencias");
         }
         
+        emf.close();
         getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
-        return;
         
     }
 
@@ -87,6 +97,7 @@ public class ControladorInicioAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtiene los parametros de la edicion de usuario del jsp de editarUsuario.
         Long id = Long.parseLong(request.getParameter("id"));
         String email = request.getParameter("email");
         String tipo = request.getParameter("tipo");
@@ -94,9 +105,12 @@ public class ControladorInicioAdmin extends HttpServlet {
         boolean activo = request.getParameter("activar") != null;
         String error = "";
         
-    ServicioUsuario servicioUsuario = new ServicioUsuario(Persistence.createEntityManagerFactory("Practica2PU"));
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");    
+    ServicioUsuario servicioUsuario = new ServicioUsuario(emf);
+    // Busca al usuario en la base de datos mediante el id.
     Usuario usuario = servicioUsuario.findUsuario(id);
 
+    // Si el usuario existe, actualiza los datos de ese usuario.
     if (usuario != null) {
         usuario.setEmail(email);
         usuario.setTipo(tipo);
@@ -104,6 +118,7 @@ public class ControladorInicioAdmin extends HttpServlet {
         usuario.setActivo(activo);
 
         try {
+            // Guarda los cambios de la edicion en la base de datos
             servicioUsuario.edit(usuario);
             
             // Si el usuario está activo, enviar correo de activación
@@ -111,30 +126,37 @@ public class ControladorInicioAdmin extends HttpServlet {
                 String from = "mendez.sanchez.carlos@iescamas.es";
                 String emailPassword = "gigh kher umyv erkh";
 
+                // Creacion del objeto correo con los detalles del correo
                 Email correo = new Email();
                 correo.setTo(usuario.getEmail());
                 correo.setFrom(from);
                 correo.setSubject("Tu cuenta ha sido activada");
                 correo.setText("Hola " + usuario.getEmail() + ",\n\nTu cuenta ha sido activada. ¡Bienvenido!");
 
+                // Creacion del objeto util, para enviar el correo
                 Utilidades util = new Utilidades();
                 try {
                     util.enviarEmail(correo, emailPassword);
                 } catch (Exception e) {
+                    // Error al enviar el correo
                     request.setAttribute("error", error);
                 }
             }
         } catch (Exception e) {
+            // Error al editar el usuario
             request.setAttribute("error", error);
         }
     } else {
+        // Error si el usuario no existe
         request.setAttribute("error", error);
     }       
+        // Si el usuario existe, se agrega como atributo y reenvia a /admin/editarUsuario.jsp
         if (usuario != null) {
             request.setAttribute("usuariosLista", usuario);
         }
+    
+    emf.close();
     getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);
-    return;
         }
 
     /**

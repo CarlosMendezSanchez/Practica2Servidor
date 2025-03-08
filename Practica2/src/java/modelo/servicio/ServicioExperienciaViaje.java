@@ -164,9 +164,11 @@ public class ServicioExperienciaViaje implements Serializable {
         }
     }
     
+    // Metodo para buscar experiencias entre 2 fechas
     public List<ExperienciaViaje> findExperienciasByFecha(Date fechaInicio, Date fechaFin) {
     EntityManager em = getEntityManager();
     try {
+    // Crea una consulta para seleccionar todas las entidades ExperienciaViaje, en el que la fecha de inicio se encuentra entre las 2 fechas asignadas    
         return em.createQuery("SELECT e FROM ExperienciaViaje e WHERE e.fechaInicio BETWEEN :inicio AND :fin", ExperienciaViaje.class)
                 .setParameter("inicio", fechaInicio)
                 .setParameter("fin", fechaFin)

@@ -42,13 +42,18 @@ public class ControladorEditarExperiencia extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de experiencias y obtener la lista de experiencias de la base de datos.
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
+        // Obtener el id de la experiencia de viaje
         Long id = Long.parseLong(request.getParameter("id"));
         ExperienciaViaje experiencia = sve.findExperienciaViaje(id);
+        // Agregar como atributo la experiencia de viaje
         request.setAttribute("experiencia", experiencia);
         
+        
+        emf.close();
+        // Redirigir al jsp /usuario/editarExperiencia
         getServletContext().getRequestDispatcher("/usuario/editarExperiencia.jsp").forward(request, response);
-        return;
     }
 
     /**
@@ -61,10 +66,13 @@ public class ControladorEditarExperiencia extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
+            throws ServletException, IOException {   
+        // Obtener los parametros del formulario de editar las experiencias de viaje.
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
+        // Convierte la fecha de tipo string a tipo fecha para la base de datos.
         Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fechaInicio"));
+        // Comprobar que el atributo publicada de tipo checkbox esté marcado, si lo está el booleano se pasa a true.
         boolean publicada = false;
         if (request.getParameter("publicada") != null){
             publicada = true;
@@ -72,11 +80,14 @@ public class ControladorEditarExperiencia extends HttpServlet {
         String error = "";
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de experiencia de viajes.
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         
+        // Obtener el id de la experiencia de viaje.
         Long id = Long.parseLong(request.getParameter("id"));
         ExperienciaViaje experiencia = sve.findExperienciaViaje(id);
         
+        // Actualizar los datos de la experiencia de viaje en caso de que la experiencia no se nula.
         if (experiencia != null){
             experiencia.setTitulo(titulo);
             experiencia.setDescripcion(descripcion);
@@ -84,13 +95,16 @@ public class ControladorEditarExperiencia extends HttpServlet {
             experiencia.setPublicada(publicada);
             
             try {
+            // Editar y guardar los cambios de la experiencia en la base de datos.
                 sve.edit(experiencia);
             } catch (Exception ex) {
                 error = "No se ha podido editar";
             }
         }
+        
+        emf.close();
+        // Redirigir al jsp /usuario/editarExperiencia.jsp
         getServletContext().getRequestDispatcher("/usuario/editarExperiencia.jsp").forward(request, response);
-        return;
     }
 
     /**

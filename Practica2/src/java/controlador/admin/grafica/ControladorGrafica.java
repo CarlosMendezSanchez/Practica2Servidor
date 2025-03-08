@@ -40,24 +40,35 @@ public class ControladorGrafica extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        
+        // Instanciar el servicio de usuario y de experiencia de viaje
         ServicioUsuario su = new ServicioUsuario(emf);
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
+        
+        // Obtener los usuario y experiencias en listas
         List<Usuario> usuario = su.findUsuarioEntities();        
         List<ExperienciaViaje> experiencia = sve.findExperienciaViajeEntities();
+        
+        // Agregar las listas de usuarios y experiencias de viaje como atributos.
         request.setAttribute("usuarios", usuario);
         request.setAttribute("experiencias", experiencia);
 
+        // Si las fechas recogidas por parametros son nulas devuelve un listado de experiencias de viaje.
         if (request.getParameter("fechaInicio") == null || request.getParameter("fechaFin") == null) {
             List<ExperienciaViaje> experienciaViajeVacia = sve.findExperienciaViajeEntities();
             request.setAttribute("experiencias", experienciaViajeVacia);
         } else {
+        // Si no son nulas, convierte las fechas recogidas por parametros de string a fecha en la base de datos
             Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fechaInicio"));
             Date fechaFin = java.sql.Date.valueOf(request.getParameter("fechaFin"));
+        // Lista las experiencias de viaje que se encuentren entre esas fechas
             List<ExperienciaViaje> experienciaViaje = sve.findExperienciasByFecha(fechaInicio, fechaFin);
+        // Agregar la lista de experiencias como atributo
             request.setAttribute("experiencias", experienciaViaje);
         }
         
         emf.close();
+        // Redirigir al jsp /admin/graficaUsuarios.jsp
         getServletContext().getRequestDispatcher("/admin/graficaUsuarios.jsp").forward(request, response);
     }
 

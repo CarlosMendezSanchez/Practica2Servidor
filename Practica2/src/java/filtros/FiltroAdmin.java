@@ -34,7 +34,8 @@ public void doFilter(ServletRequest request, ServletResponse response,
             HttpServletResponse res = (HttpServletResponse) response;
             HttpSession sesion = req.getSession();
             Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-            if (usuario == null || !usuario.getTipo().equals("admin")) { // Si no hay usuario registrado y no es admin
+            // Si no hay usuario registrado y no es admin, entonces redirige al ControladorLogin
+            if (usuario == null || !usuario.getTipo().equals("admin")) {
                 res.sendRedirect(req.getServletContext().getContextPath() + "/ControladorLogin");
                 return;
             }

@@ -36,8 +36,8 @@ public class ControladorLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Redirige al jsp de login
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-        return;
     }
 
     /**
@@ -51,6 +51,7 @@ public class ControladorLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Recoger los parametros del formulario de login.
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String error = "";
@@ -59,15 +60,18 @@ public class ControladorLogin extends HttpServlet {
         } else {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
             ServicioUsuario su = new ServicioUsuario(emf);
+            // Validacion del usuario mediante el servicio de ServicioUsuario.
             Usuario usu = su.validarUsuario(email, password);
             emf.close();
             if (usu != null) {
                 if (!usu.isActivo()){
                     error = "El usuario no esta activo";
                 } else {
+                // Guardar al usuario en la sesion
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("usuario", usu);
                 
+            // Si el tipo de usuario es admin, reenvía al controlador admin/ControladorInicioAdmin, sino a usuario/ControladorInicio en caso de no ser admin.
                 if("admin".equals(usu.getTipo())){
                     response.sendRedirect("admin/ControladorInicioAdmin");
                 } else {
@@ -80,9 +84,9 @@ public class ControladorLogin extends HttpServlet {
                 error = "e-mail o contraseña incorrectos";
             }
         }
+        // Si hay un error, se reenvía a login.jsp.
         request.setAttribute("error", error);
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-        return;
     }
 
     /**

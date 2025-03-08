@@ -40,9 +40,8 @@ public class ControladorCrearActividades extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Redirigir al jsp /usuario/CrearActividad
         getServletContext().getRequestDispatcher("/usuario/crearActividad.jsp").forward(request, response);
-        return;
     }
 
     /**
@@ -56,22 +55,31 @@ public class ControladorCrearActividades extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener los parametros del formulario de CrearActividad
         String tituloAct = request.getParameter("tituloAct");
         String descripcionAct = request.getParameter("descripcionAct");
+        // Convierte la fecha de tipo string a tipo fecha para la base de datos.
         Date fechaInicioAct = java.sql.Date.valueOf(request.getParameter("fechaInicioAct"));
         String error = "";
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de actividad y experiencia de viaje
         ServicioActividad sa = new ServicioActividad(emf);
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         
+        // Crear objeto actividad y asignar los datos del formulario
         Actividad actividad = new Actividad();
         actividad.setTitulo(tituloAct);
         actividad.setDescripcion(descripcionAct);
         actividad.setFecha(fechaInicioAct);
         
+        // Guarda en la base de datos la creacion de la actividad
         sa.create(actividad);
         
+        /*
+        * Obtener el id de la experiencia de viaje y si existe, añadirle la actividad al listado de experiencias de viaje
+        * Editar y guardar en la base de datos el cambio de experiencia de viaje
+        */
         Long id = Long.parseLong(request.getParameter("id"));
         ExperienciaViaje experienciaViaje = sve.findExperienciaViaje(id);
         if (experienciaViaje != null) {
@@ -84,8 +92,8 @@ public class ControladorCrearActividades extends HttpServlet {
         }
         emf.close();
         
+        // Redirigir al jsp /usuario/crearActividad.jsp
         getServletContext().getRequestDispatcher("/usuario/crearActividad.jsp").forward(request, response);
-        return;
     }
 
     /**

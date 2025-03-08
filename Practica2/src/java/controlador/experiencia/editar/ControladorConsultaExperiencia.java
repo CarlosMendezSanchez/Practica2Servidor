@@ -30,6 +30,7 @@ public class ControladorConsultaExperiencia extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Redirigir al jsp /usuario/consultaExperiencia.jsp
         getServletContext().getRequestDispatcher("/usuario/consultaExperiencia.jsp").forward(request, response);
     }
 

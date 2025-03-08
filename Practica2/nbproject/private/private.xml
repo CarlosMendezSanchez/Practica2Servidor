@@ -3,7 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/lacarpetaparasubirgithub/Practica2Servidor/Practica2/src/java/controlador/crear/actividad/ControladorCrearActividades.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/login/ControladorLogin.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/registro/ControladorRegistro.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/inicio/ControladorInicio.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/inicio/ControladorInicioAdmin.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/experiencia/editar/ControladorEditarExperiencia.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/experiencia/editar/ControladorFiltrarExperiencia.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/experiencia/editar/ControladorConsultaExperiencia.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/crear/actividad/ControladorActividad.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/crear/actividad/ControladorCrearActividades.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/crear/actividad/ControladorEditarEA.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/comentario/ControladorComentario.java</file>
+            <file>file:/home/carlos/2º%20DAW/Desarrollo_web_entorno_servidor/Trimestre2/otro/Practica2/src/java/controlador/admin/grafica/ControladorGrafica.java</file>
         </group>
     </open-files>
 </project-private>

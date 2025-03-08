@@ -35,8 +35,8 @@ public class ControladorRegistro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Redirige al jsp de registro
         getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
-        return;
     }
 
     /**
@@ -50,6 +50,7 @@ public class ControladorRegistro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Recoger los parametros del formulario de registro
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
@@ -60,18 +61,22 @@ public class ControladorRegistro extends HttpServlet {
         if (email == null || password == null || nombre == null || apellidos == null || email.isEmpty() || password.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()) {
             error = "Todos los campos son obligatorios";
         } else {
+            // Crear instancia EntityManagerFactory (para poder interactuar con la base de datos)
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+            // Instanciar el servicio de usuario
             ServicioUsuario su = new ServicioUsuario(emf);
             
             if (su.obtenerUsuarioPorEmail(email) != null) {
                 error = "El e-mail ya está registrado";
             } else {
+                // Crear objeto nuevoUsuario con los datos proporcionados por el formulario
                 Usuario nuevoUsuario = new Usuario();
                 nuevoUsuario.setEmail(email);
                 nuevoUsuario.setPassword(password);
                 nuevoUsuario.setNombre(nombre);
                 nuevoUsuario.setApellidos(apellidos);
-                nuevoUsuario.setTipo(tipo);                
+                nuevoUsuario.setTipo(tipo);    
+                // Crear el usuario en la base de datos
                 su.crearUsuario(nuevoUsuario);
                 
                 emf.close();
@@ -83,7 +88,6 @@ public class ControladorRegistro extends HttpServlet {
 
         request.setAttribute("error", error);
         getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
-        return;
     }
 
     /**

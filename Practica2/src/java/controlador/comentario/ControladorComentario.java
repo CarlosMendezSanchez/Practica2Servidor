@@ -40,8 +40,8 @@ public class ControladorComentario extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/usuario/crearcomentario.jsp").forward(request, response);
-        return;
+        // Redirigir al jsp /usuario/crearcomentario
+        getServletContext().getRequestDispatcher("/usuario/crearComentario.jsp").forward(request, response);
     }
 
     /**
@@ -55,28 +55,33 @@ public class ControladorComentario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener el parametro de contenido del formulario del jsp de crearcomentario
         String contenido = request.getParameter("contenido");
         String error = "";
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de opinion y de experiencia de viaje
         ServicioOpinion opiniones = new ServicioOpinion(emf);
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         
+        // Obtener de la sesion el usuario. Obtener el id de la experiencia
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Long id = Long.parseLong(request.getParameter("idEx"));
         ExperienciaViaje experienciaViaje = sve.findExperienciaViaje(id);
         
+        // Crear un objeto opinion con los datos de los parametros del formulario
         Opinion opinion = new Opinion();
         opinion.setContenido(contenido);
         opinion.setUsuario(usuario);
         opinion.setExperiencia(experienciaViaje);
         
+        // Guardar en la base de datos la opinion
         opiniones.create(opinion);
         emf.close();
         
-        getServletContext().getRequestDispatcher("/usuario/crearcomentario.jsp").forward(request, response);
-        return;
+        // Redirigir a /usuario/crearcomentario.jsp 
+        getServletContext().getRequestDispatcher("/usuario/crearComentario.jsp").forward(request, response);
     }
 
     /**

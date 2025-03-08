@@ -43,22 +43,30 @@ public class ControladorInicio extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de ExperienciaViaje y de Opinion.
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         ServicioOpinion opiniones = new ServicioOpinion(emf);
+        // Obtener en forma de lista las experiencias y las opiniones de la base de datos.
         List<ExperienciaViaje> experienciaViajes = sve.findExperienciaViajeEntities();
         List<Opinion> listaOpiniones = opiniones.findOpinionEntities();
+        // Agregar las listas mediante atributos para el archivo jsp.
         request.setAttribute("experienciaViajes", experienciaViajes);
         request.setAttribute("listaOpiniones", listaOpiniones);
         String error = ""; 
         
         String accion = request.getParameter("accion");
         
+        // Si el parametro de accion es igual a crear, reenvia a /usuario/crearExperienciaViajes.jsp
         if ("crear".equals(accion)) {
             getServletContext().getRequestDispatcher("/usuario/crearExperienciaViajes.jsp").forward(request, response);
             return;
         }
         
         try {
+        /*
+        * Si el parametro de accion es igual a eliminar, recoge el id de la experiencia que se va a eliminar
+        * Elimina la experiencia de viaje y luego actualiza la lista de experiencias.
+        */
             if ("eliminar".equals(accion)){
                 Long id = Long.parseLong(request.getParameter("id"));                
                 sve.destroy(id);
@@ -66,11 +74,13 @@ public class ControladorInicio extends HttpServlet {
                 request.setAttribute("experienciaViajes", experienciaViajes);
             }
         }  catch (Exception e) {
+            // Si no se puede eliminar la experiencia se envia un mensaje de error
             request.setAttribute("error","No se puede eliminar porque la experiencia tiene una actividad asociada");
         }
         
+        emf.close();
+        // Redirigir a /usuario/inicio.jsp
         getServletContext().getRequestDispatcher("/usuario/inicio.jsp").forward(request, response);
-        return;
     }
 
     /**
@@ -84,28 +94,32 @@ public class ControladorInicio extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener los parametros del formulario de creacion de experiencias de viajes.
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
         Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fechaInicio"));
         boolean publicada = Boolean.parseBoolean(request.getParameter("publicada"));
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Practica2PU");
+        // Instanciar el servicio de ServicioExperienciaViaje
         ServicioExperienciaViaje sve = new ServicioExperienciaViaje(emf);
         
+        // Crear objeto experienciaViaje con los datos proporcionados por el formulario
         ExperienciaViaje experienciaViaje = new ExperienciaViaje();
         experienciaViaje.setTitulo(titulo);
         experienciaViaje.setDescripcion(descripcion);
         experienciaViaje.setFechaInicio(fechaInicio);
         experienciaViaje.setPublicada(publicada);
 
+        // Obtener al usuario de la sesion y asociarlo con la experiencia de viaje.
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         experienciaViaje.setUsuario(usuario);
+        // Crear la experiencia de viaje en la base de datos.
         sve.create(experienciaViaje);
         emf.close();
         
         getServletContext().getRequestDispatcher("/usuario/crearExperienciaViajes.jsp").forward(request, response);
-        return;
     }
 
     /**
