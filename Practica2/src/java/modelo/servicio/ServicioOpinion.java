@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.entidades.ExperienciaViaje;
 import modelo.entidades.Opinion;
 import modelo.servicio.exceptions.NonexistentEntityException;
 
@@ -133,4 +134,50 @@ public class ServicioOpinion implements Serializable {
         }
     }
     
+    public void eliminarOpiniones(ExperienciaViaje exp) throws NonexistentEntityException {
+    // EntityManager se utilizará para interactuar con la base de datos
+    EntityManager em = null;
+    try {
+        // Obtener instancia del EntityManager e iniciar transacción para realizar operaciones en la base de datos.
+        em = getEntityManager();
+        em.getTransaction().begin();
+
+        /*
+        * Crear una consulta a la base de datos para obtener todas las opiniones asociadas a la experiencia de viaje.
+        * Establecer el parámetro "experiencia" en la consulta con el objeto ExperienciaViaje exp.
+        */
+        Query query = em.createQuery("SELECT o FROM Opinion o WHERE o.experiencia = :experiencia");
+        query.setParameter("experiencia", exp);
+
+        //Obtener la lista de las opiniones
+        List<Opinion> opiniones = query.getResultList();
+        if (opiniones.isEmpty()) {
+            return;
+        }
+        
+        // Recorrer esa lista para eliminar cada opinion
+        for (Opinion opinion : opiniones) {
+            try {
+                opinion = em.getReference(Opinion.class, opinion.getId());
+                opinion.getId();
+                em.remove(opinion);
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("Esta opinion con el id " + opinion.getId() + " ya no existe.", enfe);
+            }
+        }
+
+        // Guardar los cambios en la base de datos
+        em.getTransaction().commit();
+    } catch (Exception ex) {
+        // Si ha ocurrido un error, revierte los cambios.
+        if (em != null && em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        throw new RuntimeException("Error al eliminar las opiniones de la experiencia", ex);
+    } finally {
+        if (em != null) {
+            em.close();
+        }
+    }
+    }
 }

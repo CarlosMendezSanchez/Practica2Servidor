@@ -58,6 +58,7 @@ public class ControladorInicioAdmin extends HttpServlet {
                 Long id = Long.parseLong(request.getParameter("id"));
                 Usuario usuarioEditar = svu.findUsuario(id);
                 request.setAttribute("usuariosLista", usuarioEditar);
+                emf.close();
                 getServletContext().getRequestDispatcher("/admin/editarUsuario.jsp").forward(request, response);
                 return;
             }
@@ -67,21 +68,29 @@ public class ControladorInicioAdmin extends HttpServlet {
         
         try {
             /*
-            * Si el parametro de accion es igual a eliminar, obtiene el id del usuario y lo elimina
+            * Si el parametro de accion es igual a eliminar, obtiene el id del usuario
+            * Comprueba que el usuario tenga o no experiencias para eliminar al usuario, si tiene, no lo elimina
             * Agraga como atributo la lista de usuarios actualizada y redirige al jsp /admin/inicio.jsp
             */
             if ("eliminar".equals(accion)) {  
                 Long id = Long.parseLong(request.getParameter("id"));
-                svu.destroy(id);
+                Usuario usuarioEliminar = svu.findUsuario(id);
+                
+                if (usuarioEliminar.getExperiencias() != null && !usuarioEliminar.getExperiencias().isEmpty()){
+                    request.setAttribute("error", "No se puede eliminar el usuario porque tiene experiencias");
+                } else {
+                    svu.destroy(id);
                 usuario = svu.findUsuarioEntities();
                 request.setAttribute("usuarios", usuario);
+                }       
+                emf.close();
                 getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
             }
         } catch (Exception e) {
             request.setAttribute("error", "No se puede eliminar el usuario porque tiene experiencias");
         }
         
-        emf.close();
+        
         getServletContext().getRequestDispatcher("/admin/inicio.jsp").forward(request, response);
         
     }

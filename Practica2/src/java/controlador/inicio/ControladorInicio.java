@@ -65,13 +65,24 @@ public class ControladorInicio extends HttpServlet {
         try {
         /*
         * Si el parametro de accion es igual a eliminar, recoge el id de la experiencia que se va a eliminar
-        * Elimina la experiencia de viaje y luego actualiza la lista de experiencias.
+        * Si la experiencia tiene alguna actividad, no se eliminara ninguna experiencia, si no tiene actividad
+        * se eliminará la experiencia.
+        * Elimina la experiencia de viaje y elimina las opiniones de esa experiencia
+        * y luego actualiza la lista de experiencias.
         */
             if ("eliminar".equals(accion)){
-                Long id = Long.parseLong(request.getParameter("id"));                
+                Long id = Long.parseLong(request.getParameter("id")); 
+                ExperienciaViaje experienciaEliminar = sve.findExperienciaViaje(id);
+                
+                
+                if (experienciaEliminar.getActividades() != null && !experienciaEliminar.getActividades().isEmpty()){
+                    request.setAttribute("error","No se puede eliminar porque la experiencia tiene una actividad asociada");
+                } else {
+                opiniones.eliminarOpiniones(experienciaEliminar);
                 sve.destroy(id);
                 experienciaViajes = sve.findExperienciaViajeEntities();
-                request.setAttribute("experienciaViajes", experienciaViajes);
+                request.setAttribute("experienciaViajes", experienciaViajes);   
+                }
             }
         }  catch (Exception e) {
             // Si no se puede eliminar la experiencia se envia un mensaje de error
